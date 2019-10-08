@@ -4,17 +4,20 @@ import com.otto.lab1.factory.SweetnessFactory;
 import com.otto.lab1.factory.impl.SweetnessFactoryImpl;
 import com.otto.lab1.model.*;
 import com.otto.lab1.service.NYGiftFillerService;
+import org.apache.log4j.Logger;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class NYGiftFillerServiceImpl implements NYGiftFillerService {
 
+    private static final Logger LOG = Logger.getLogger(MethodHandles.lookup().lookupClass());
+
     private NYGift nyGift;
     private SweetnessFactory factory = new SweetnessFactoryImpl();
     private Random random = new Random();
-
 
     @Override
     public NYGift fillTheGift() {
@@ -27,6 +30,8 @@ public class NYGiftFillerServiceImpl implements NYGiftFillerService {
 
         nyGift.setGiftContents(giftContents);
         nyGift.setTotalWeightInGr(findWeight(giftContents));
+
+        LOG.info("The gift is ready!");
 
         return nyGift;
 
