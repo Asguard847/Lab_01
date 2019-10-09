@@ -5,15 +5,20 @@ import com.otto.lab1.service.FindBySugarRangeService;
 import com.otto.lab1.service.GiftSortingService;
 import com.otto.lab1.service.UserIOService;
 import javafx.util.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class UserIOServiceImpl implements UserIOService {
 
-    private GiftSortingService sortingService = new GiftSortingServiceImpl();
-    private FindBySugarRangeService sugarRangeService = new FindByShugarRangeServiceImpl();
+    @Autowired
+    GiftSortingService sortingService;
+    @Autowired
+    FindBySugarRangeService sugarRangeService;
 
     @Override
     public Pair<Integer, Integer> getUserInput() {
@@ -45,9 +50,30 @@ public class UserIOServiceImpl implements UserIOService {
 
         model.setTotalWeightInGr(nyGift.getTotalWeightInGr());
 
+        setSweetnesses(model, sweetnesses);
 
-        //Determining how much sweetnesses of each type we have in our gift
+        List<Sweetness> sortedSweetnesses = sortingService.
+                sortByWeightAscendingOrder(sweetnesses);
 
+        model.setHeaviest(sortedSweetnesses.get(sortedSweetnesses.size() - 1));
+
+        model.setLightest(sortedSweetnesses.get(0));
+
+        sortedSweetnesses = sortingService.sortBySugarPercentAscendingOrder(sweetnesses);
+
+        model.setMostSweetest(sortedSweetnesses.get(sortedSweetnesses.size() - 1));
+
+        model.setLessSweetest(sortedSweetnesses.get(0));
+
+
+        model.setOneFromSugarRange(sugarRangeService.findSweetnessBySugarRange(min, max, sweetnesses));
+
+        model.setSetFromSugarRange(sugarRangeService.findAllSweetnessBySugarRange(min, max, sweetnesses));
+
+        return model;
+    }
+
+    private void setSweetnesses(UserOutputDisplayModel model, List<Sweetness> sweetnesses) {
 
         model.setCandyChupaChups(sweetnesses.stream().filter(sweetness -> sweetness.getName().
                 equals(CandyTypes.CHUPACHUPS.getCandyName())).count());
@@ -75,32 +101,5 @@ public class UserIOServiceImpl implements UserIOService {
 
         model.setChocolateSnickers(sweetnesses.stream().filter(sweetness -> sweetness.getName().
                 equals(ChocolateTypes.SNICKERS.getChocolateName())).count());
-
-
-        //Conducting some sorting operations
-
-
-        List<Sweetness> sortedSweetnesses = sortingService.
-                sortByWeightAscendingOrder(sweetnesses);
-
-        model.setHeaviest(sortedSweetnesses.get(sortedSweetnesses.size() - 1));
-
-        model.setLightest(sortedSweetnesses.get(0));
-
-        sortedSweetnesses = sortingService.sortBySugarPercentAscendingOrder(sweetnesses);
-
-        model.setMostSweetest(sortedSweetnesses.get(sortedSweetnesses.size() - 1));
-
-        model.setLessSweetest(sortedSweetnesses.get(0));
-
-
-        //And finally we find some sweetnesses by sugar range
-
-
-        model.setOneFromSugarRange(sugarRangeService.findSweetnessBySugarRange(min, max, sweetnesses));
-
-        model.setSetFromSugarRange(sugarRangeService.findAllSweetnessBySugarRange(min, max, sweetnesses));
-
-        return model;
     }
 }

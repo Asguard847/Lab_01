@@ -2,6 +2,7 @@ package com.otto.lab1.service.impl;
 
 import com.otto.lab1.model.Sweetness;
 import com.otto.lab1.service.FindBySugarRangeService;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+@Service
 public class FindByShugarRangeServiceImpl implements FindBySugarRangeService {
-
 
     @Override
     public Sweetness findSweetnessBySugarRange(double min, double max,

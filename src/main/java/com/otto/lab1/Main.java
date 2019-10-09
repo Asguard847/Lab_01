@@ -4,21 +4,35 @@ import com.otto.lab1.model.NYGift;
 import com.otto.lab1.model.UserOutputDisplayModel;
 import com.otto.lab1.service.NYGiftFillerService;
 import com.otto.lab1.service.UserIOService;
-import com.otto.lab1.service.impl.NYGiftFillerServiceImpl;
-import com.otto.lab1.service.impl.UserIOServiceImpl;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class Main {
+import java.lang.invoke.MethodHandles;
 
-    private NYGiftFillerService nyGiftFillerService = new NYGiftFillerServiceImpl();
-    private UserIOService userIOService = new UserIOServiceImpl();
+
+@SpringBootApplication
+public class Main implements CommandLineRunner {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    @Autowired
+    NYGiftFillerService nyGiftFillerService ;
+    @Autowired
+    UserIOService userIOService;
 
     public static void main(String[] args) {
-        Main main = new Main();
-        main.run();
+        LOG.info("Starting application");
+        SpringApplication.run(Main.class, args);
+        LOG.info("Finishing application");
     }
 
-    public void run() {
+    @Override
+    public void run(String... args) {
 
         Pair<Integer, Integer> userInput = userIOService.getUserInput();
 

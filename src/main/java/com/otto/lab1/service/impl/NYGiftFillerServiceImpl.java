@@ -4,15 +4,20 @@ import com.otto.lab1.factory.SweetnessFactory;
 import com.otto.lab1.factory.impl.SweetnessFactoryImpl;
 import com.otto.lab1.model.*;
 import com.otto.lab1.service.NYGiftFillerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Service
 public class NYGiftFillerServiceImpl implements NYGiftFillerService {
 
+    @Autowired
+    SweetnessFactory factory;
+
     private NYGift nyGift;
-    private SweetnessFactory factory = new SweetnessFactoryImpl();
     private Random random = new Random();
 
 

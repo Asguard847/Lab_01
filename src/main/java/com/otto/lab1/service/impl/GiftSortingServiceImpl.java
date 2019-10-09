@@ -2,11 +2,13 @@ package com.otto.lab1.service.impl;
 
 import com.otto.lab1.model.Sweetness;
 import com.otto.lab1.service.GiftSortingService;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Service
 public class GiftSortingServiceImpl implements GiftSortingService {
 
     @Override

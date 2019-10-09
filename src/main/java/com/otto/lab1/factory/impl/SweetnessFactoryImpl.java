@@ -2,7 +2,9 @@ package com.otto.lab1.factory.impl;
 
 import com.otto.lab1.factory.SweetnessFactory;
 import com.otto.lab1.model.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SweetnessFactoryImpl implements SweetnessFactory {
 
     @Override
