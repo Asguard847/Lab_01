@@ -2,9 +2,19 @@ package com.otto.lab1.model;
 
 public abstract class Sweetness {
 
+    protected int id;
     protected String name;
     protected int weightInGr;
     protected double sugarPerCent;
+    protected int giftId;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -28,5 +38,13 @@ public abstract class Sweetness {
 
     public void setSugarPerCent(double sugarPerCent) {
         this.sugarPerCent = sugarPerCent;
+    }
+
+    public int getGiftId() {
+        return giftId;
+    }
+
+    public void setGiftId(int giftId) {
+        this.giftId = giftId;
     }
 }

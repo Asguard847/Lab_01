@@ -2,10 +2,12 @@ package com.otto.lab1.dao;
 
 import com.otto.lab1.model.NYGift;
 
+import java.sql.Connection;
+
 public interface NyGiftDao {
 
-    void persistNyGift(NYGift gift);
+    int persistNyGift(NYGift gift, Connection connection);
 
-    NYGift getNYGift();
+    NYGift getNYGift(int id, Connection connection);
 
 }

@@ -1,26 +1,36 @@
 package com.otto.lab1.dao.impl;
 
 import com.otto.lab1.dao.ConnectionFactory;
+import org.apache.log4j.Logger;
 import org.h2.jdbcx.JdbcConnectionPool;
-import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 
-@Service
+
 public class ConnectionFactoryImpl implements ConnectionFactory {
+
+    private static final Logger LOG = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
     @Override
     public Connection getH2Connection() throws SQLException {
 
-        String dbUrl = "jdbc:h2:tcp://localhost/~/lab1";
-        String username = "sa";
-        String password = "";
+        Properties properties = new Properties();
 
+        try{
+            properties.load(ConnectionFactoryImpl.class.getResourceAsStream("/db.properties"));
+        } catch (IOException e) {
+            LOG.error("Could not read properties from file");
+        }
         JdbcConnectionPool connectionPool =
-                JdbcConnectionPool.create(dbUrl, username, password);
-
+                JdbcConnectionPool.create(properties.getProperty("DB_URL"),
+                        properties.getProperty("DB_USERNAME"),
+                        properties.getProperty("DB_PASSWORD"));
         return connectionPool.getConnection();
+
     }
 
     @Override
